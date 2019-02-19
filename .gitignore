@@ -24,3 +24,9 @@ build/
 MANIFEST
 
 .tox/
+
+# Data
+rnn_prof/data/skill_builder_*
+
+# Pycharm files
+rnn_prof/.idea
