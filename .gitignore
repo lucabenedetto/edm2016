@@ -30,4 +30,4 @@ rnn_prof/data/skill_builder_*
 rnn_prof/data/by_skill/
 
 # Pycharm files
-rnn_prof/.idea
+rnn_prof/.idea/*
