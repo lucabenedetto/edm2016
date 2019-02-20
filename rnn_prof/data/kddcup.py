@@ -1,3 +1,5 @@
+import pickle
+
 import itertools as its
 import logging
 
@@ -117,6 +119,14 @@ def load_data(file_path, item_id_col=PROBLEM_NAME, template_id_col=None, concept
     item_ids, data[ITEM_IDX_KEY] = np.unique(data[item_id_col], return_inverse=True)
     user_ids = user_ids.astype(str)
     item_ids = item_ids.astype(str)
+
+    # To store the ID mapping between the ID (for items and users) and the index
+    output_file = open('item_id_mapping.pickle', 'wb')
+    pickle.dump(item_ids, output_file)
+    output_file.close()
+    output_file = open('user_id_mapping.pickle', 'wb')
+    pickle.dump(user_ids, output_file)
+    output_file.close()
 
     # TODO (yan): refactor the below to avoid code duplication across data sets
     cols_to_keep = [USER_IDX_KEY, ITEM_IDX_KEY, CORRECT_KEY, TIME_IDX_KEY]
