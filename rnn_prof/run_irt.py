@@ -1,6 +1,9 @@
 """
 Script for running basic online IRT
 """
+import pickle
+import os
+
 import logging
 
 import numpy as np
@@ -166,6 +169,10 @@ def irt(data_folds, num_folds, output=None, data_opts=DEFAULT_DATA_OPTS, is_two_
                                           item_precision=item_precision)
         metrics = metrics.append(pd.DataFrame(index=[len(metrics)], data=fold_metrics))
 
+    # remove the tmp pickle files used for the mapping
+    os.remove("item_id_mapping.pickle")
+    os.remove("user_id_mapping.pickle")
+
     if output:
         metrics.to_pickle(output)
 
@@ -199,20 +206,17 @@ def eval_learner(train_data, test_data, is_two_po, fold_num,
                               item_precision=item_precision)
     learner.learn()
 
-    # My code to store the estimated skills/difficulties
-    import pickle
-    output_file = open('train_responses_difficulty.pickle', 'wb')
-    pickle.dump(learner.nodes['train_responses'].param_data['offset_coeffs'], output_file)
-    output_file.close()
-    output_file = open('train_responses_skills.pickle', 'wb')
-    pickle.dump(learner.nodes['train_responses'].param_data['thetas'], output_file)
-    output_file.close()
-    output_file = open('test_responses_difficulty.pickle', 'wb')
-    pickle.dump(learner.nodes['test_responses'].param_data['offset_coeffs'], output_file)
-    output_file.close()
-    output_file = open('test_responses_skills.pickle', 'wb')
-    pickle.dump(learner.nodes['test_responses'].param_data['thetas'], output_file)
-    output_file.close()
+    # Collecting the estimate difficulties and skills in two dataframes
+    df = pd.DataFrame({
+        'difficulty': learner.nodes['test_responses'].param_data['offset_coeffs'].flatten(),
+        'item': pickle.load(open('item_id_mapping.pickle', 'rb'))
+    })
+    df.to_csv('id_difficulty_map_fold%d.csv' % fold_num)
+    df = pd.DataFrame({
+        'skill': learner.nodes['test_responses'].param_data['thetas'].flatten(),
+        'user': pickle.load(open('user_id_mapping.pickle', 'rb'))
+    })
+    df.to_csv('id_skill_map_fold%d.csv' % fold_num)
 
     LOGGER.info("Performing online cross-validation")
     prob_correct = get_online_rps(learner, test_data[USER_IDX_KEY].values,

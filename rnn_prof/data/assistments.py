@@ -2,6 +2,8 @@
 Functions for loading the Assistments data.  Originally from
 https://sites.google.com/site/assistmentsdata/home/assistment-2009-2010-data/skill-builder-data-2009-2010
 """
+import pickle
+
 import logging
 
 import numpy as np
@@ -97,8 +99,7 @@ def load_data(file_path, item_id_col=SKILL_ID_KEY, template_id_col=None, concept
     item_ids, data[ITEM_IDX_KEY] = np.unique(data[item_id_col], return_inverse=True)
     user_ids, data[USER_IDX_KEY] = np.unique(data[USER_ID_KEY], return_inverse=True)
 
-    # My code to store the index-ID mapping
-    import pickle
+    # To store the ID mapping between the ID (for items and users) and the index
     output_file = open('item_id_mapping.pickle', 'wb')
     pickle.dump(item_ids, output_file)
     output_file.close()
