@@ -198,6 +198,22 @@ def eval_learner(train_data, test_data, is_two_po, fold_num,
                               template_precision=template_precision,
                               item_precision=item_precision)
     learner.learn()
+
+    # My code to store the estimated skills/difficulties
+    import pickle
+    output_file = open('train_responses_difficulty.pickle', 'wb')
+    pickle.dump(learner.nodes['train_responses'].param_data['offset_coeffs'], output_file)
+    output_file.close()
+    output_file = open('train_responses_skills.pickle', 'wb')
+    pickle.dump(learner.nodes['train_responses'].param_data['thetas'], output_file)
+    output_file.close()
+    output_file = open('test_responses_difficulty.pickle', 'wb')
+    pickle.dump(learner.nodes['test_responses'].param_data['offset_coeffs'], output_file)
+    output_file.close()
+    output_file = open('test_responses_skills.pickle', 'wb')
+    pickle.dump(learner.nodes['test_responses'].param_data['thetas'], output_file)
+    output_file.close()
+
     LOGGER.info("Performing online cross-validation")
     prob_correct = get_online_rps(learner, test_data[USER_IDX_KEY].values,
                                   compute_first_interaction_rps=True)

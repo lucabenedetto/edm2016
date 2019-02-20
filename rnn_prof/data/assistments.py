@@ -97,6 +97,15 @@ def load_data(file_path, item_id_col=SKILL_ID_KEY, template_id_col=None, concept
     item_ids, data[ITEM_IDX_KEY] = np.unique(data[item_id_col], return_inverse=True)
     user_ids, data[USER_IDX_KEY] = np.unique(data[USER_ID_KEY], return_inverse=True)
 
+    # My code to store the index-ID mapping
+    import pickle
+    output_file = open('item_id_mapping.pickle', 'wb')
+    pickle.dump(item_ids, output_file)
+    output_file.close()
+    output_file = open('user_id_mapping.pickle', 'wb')
+    pickle.dump(user_ids, output_file)
+    output_file.close()
+
     cols_to_keep = [USER_IDX_KEY, ITEM_IDX_KEY, CORRECT_KEY, TIME_IDX_KEY]
     if concept_id_col is None:
         LOGGER.info('concept_id_col not supplied, not using concepts')
