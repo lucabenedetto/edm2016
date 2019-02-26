@@ -158,4 +158,8 @@ def load_data(file_path, item_id_col=PROBLEM_NAME, template_id_col=None, concept
                         len(template_ids) if template_ids is not None else 0,
                         len(concept_ids) if concept_ids is not None else 0))
 
+    # To store the dataframe as they use it (after filtering, sorting, etc.).
+    # This enables us to accurately compare the effectiveness of their algorithm with other approaches
+    data[cols_to_keep].to_csv('filtered_dataframe_kddcup.csv')
+
     return data[cols_to_keep], user_ids, item_ids, template_ids, concept_ids
