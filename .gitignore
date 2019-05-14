@@ -26,10 +26,23 @@ MANIFEST
 .tox/
 
 # Data
+rnn_prof/data/bridge_to_algebra*
 rnn_prof/data/skill_builder_*
 rnn_prof/data/by_skill/
 rnn_prof/data/id_difficulty_map*
 rnn_prof/data/id_skill_map*
+by_skill*
+filtered_dataframe*
+
+# Temporary files
+tmp*
+
+# Bash scripts for experiments
+*assistments.sh
+
+# Output
+output*
 
 # Pycharm files
+.idea/*
 rnn_prof/.idea/*
