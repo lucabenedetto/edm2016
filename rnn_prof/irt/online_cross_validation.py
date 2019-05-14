@@ -58,6 +58,11 @@ def get_online_rps(learner, test_student_idx, test_student_time_idx=None,
     # get iteration count, an array indicating the online validation iteration associated with each
     # interaction in the set of test responses
     iteration_count = _idx_to_occurrence_ordinal(test_student_idx, test_student_time_idx)
+    # TODO <my comment>
+    # iteration_count is a list containing the index of each interaction for each user. This means that it can be seen
+    # as a flattened array, with the original array being n. students long and each cell being an array with indexes
+    # from 0 to number of interactions. i.e. it provides an index separately for each student.
+    # TODO </my comment>
     max_interactions = np.max(iteration_count) + 1
 
     # get corrects and parameter indices that will be sub-indexed during online validation
@@ -103,6 +108,9 @@ def get_online_rps(learner, test_student_idx, test_student_time_idx=None,
     thetas_to_keep = theta_node.cpd.get_dependent_vars(np.unique(theta_idx))
     # trim theta node in place and remap theta_idx to the newly trimmed cpd
     theta_idx = theta_node.subset(thetas_to_keep, inplace=True)[theta_idx]
+    # TODO <my comment>
+    # in standard IRT (no hierarchical, no temporal), num_theta is the number of students (all thetas are "to_keep")
+    # TODO </my comment>
     num_thetas = theta_node.cpd.dim
 
     # quiet the online learner logger from INFO to WARNING (leave DEBUG alone)
@@ -113,12 +121,19 @@ def get_online_rps(learner, test_student_idx, test_student_time_idx=None,
     for k in np.arange(0 if compute_first_interaction_rps else 1, max_interactions):
         test_idx = (iteration_count == k)
         train_idx = (iteration_count < k)
+        # TODO <my comment>
+        # train idx is a list of boolean and says whether each element (should be the same format as iteration_count) is
+        # used for training or testing.
+        # TODO </my comment>
         # remove from train index students not in test_idx (whose interactions are all processed)
         train_idx &= np.in1d(test_student_idx, test_student_idx[test_idx])
 
         test_learner = BayesNetLearner(test_learner.nodes.values(), **test_learner_kwargs)
         # make new train/test nodes by splitting the original test node's correct into train/test
         for node_name, idx in ((TRAIN_RESPONSES_KEY, train_idx), (TEST_RESPONSES_KEY, test_idx)):
+            # TODO <my comment>
+            # Could the difference be due to this "if" below??
+            # TODO </my comment>
             if k == 0 and node_name == TRAIN_RESPONSES_KEY:
                 # when on first interaction, make training node not empty (to avoid errors); it
                 # will be labeled held-out below
