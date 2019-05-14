@@ -9,6 +9,7 @@ import logging
 import numpy as np
 import pandas as pd
 from scipy import sparse as sp
+from sklearn.metrics import log_loss
 
 from .data.constants import (ITEM_IDX_KEY, TEMPLATE_IDX_KEY, USER_IDX_KEY, CORRECT_KEY,
                              CONCEPT_IDX_KEY)
@@ -224,9 +225,10 @@ def eval_learner(train_data, test_data, is_two_po, fold_num,
 
     test_correct = learner.nodes[TEST_RESPONSES_KEY].data
     metrics = get_metrics(test_correct, prob_correct)
+    metrics['log_loss'] = log_loss(test_correct, prob_correct)  # added by LB
     metrics['is_two_po'] = is_two_po
     metrics['fold_num'] = fold_num
     metrics['num_test_interactions'] = len(test_correct)
-    LOGGER.info("Fold %d: Num Interactions: %d; Test Accuracy: %.5f; Test AUC: %.5f",
-                fold_num, metrics['num_test_interactions'], metrics['map'], metrics['auc'])
+    LOGGER.info("Fold %d: Num Interactions: %d; Test Accuracy: %.5f; Test AUC: %.5f; Test Log Loss: %.5f",
+                fold_num, metrics['num_test_interactions'], metrics['map'], metrics['auc'], metrics['log_loss'])
     return metrics, prob_correct, test_correct
