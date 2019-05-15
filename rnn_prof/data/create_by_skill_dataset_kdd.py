@@ -35,6 +35,7 @@ for skill_id in skill_list:
     print('[INFO] Working on skill %d' %skill_id)
     list_items_to_keep = list(item_skill_mapping_df[item_skill_mapping_df['skill_id']==skill_id]['question'].values)
     df = df[df['question'].isin(list_items_to_keep)]
-    df.drop('question', axis=1).to_csv('by_skill_kdd/bridge_to_algebra_2006_2007_train_%d.csv' %skill_id)
+    print('[INFO] Number of rows %d' %len(df.index))
+    df.drop('question', axis=1).to_csv('by_skill_kdd/bridge_to_algebra_2006_2007_train_%d' %skill_id)
     print('[INFO] Stored DF for the skill')
 
