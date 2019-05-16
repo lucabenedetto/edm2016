@@ -32,6 +32,7 @@ rnn_prof/data/skill_builder_*
 rnn_prof/data/by_skill/
 rnn_prof/data/id_difficulty_map*
 rnn_prof/data/id_skill_map*
+rnn_prof/data/*.pickle
 by_skill*
 filtered_dataframe*
 
