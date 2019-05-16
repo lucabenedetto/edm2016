@@ -178,7 +178,10 @@ def irt(data_folds, num_folds, output=None, data_opts=DEFAULT_DATA_OPTS, is_two_
         metrics.to_pickle(output)
 
     # Print overall results
-    LOGGER.info("Overall Acc: %.5f AUC: %.5f", metrics['map'].mean(), metrics['auc'].mean(), metrics['log_loss'].mean())
+    LOGGER.info(
+        "Overall Acc: %.5f AUC: %.5f Log Loss: %.5f",
+        metrics['map'].mean(), metrics['auc'].mean(), metrics['log_loss'].mean()
+    )
 
 
 def eval_learner(train_data, test_data, is_two_po, fold_num,
