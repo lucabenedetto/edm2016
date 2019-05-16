@@ -26,6 +26,7 @@ MANIFEST
 .tox/
 
 # Data
+rnn_prof/data/rnn_result
 rnn_prof/data/bridge_to_algebra*
 rnn_prof/data/skill_builder_*
 rnn_prof/data/by_skill/
