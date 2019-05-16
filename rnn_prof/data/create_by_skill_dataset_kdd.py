@@ -22,6 +22,7 @@ def get_item_skill_mapping(filepath):
 filepath = 'bridge_to_algebra_2006_2007_train.txt'
 
 df = pd.read_csv(filepath, sep='\t', low_memory=False)
+original_columns = df.columns
 df['question'] = df.apply(lambda r: r['Problem Name'] + '_' + r['Step Name'], axis=1)
 print('[INFO] Collected dataframe')
 
@@ -36,6 +37,6 @@ for skill_id in skill_list:
     list_items_to_keep = list(item_skill_mapping_df[item_skill_mapping_df['skill_id']==skill_id]['question'].values)
     local_df = df[df['question'].isin(list_items_to_keep)]
     print('[INFO] Number of rows %d' %len(local_df.index))
-    local_df.drop('question', axis=1).to_csv('by_skill_kdd/bridge_to_algebra_2006_2007_train_%d' %skill_id)
+    local_df[original_columns].to_csv('by_skill_kdd/bridge_to_algebra_2006_2007_train_%d' %skill_id, sep='\t')
     print('[INFO] Stored DF for the skill')
 
