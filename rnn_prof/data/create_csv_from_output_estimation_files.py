@@ -8,7 +8,7 @@ def tail_1(f):
     stdout.close()
     return lines[0]
 
-directory = 'output-by_skill-20190516-1055-assistments'
+directory = 'output-by_skill-20190519-1725-kdd'
 
 columns_names = ['skill_id', 'mean_acc', 'mean_auc', 'mean_log_loss']
 df = pd.DataFrame(columns=columns_names)
