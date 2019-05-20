@@ -27,7 +27,7 @@ MANIFEST
 
 # Data
 rnn_prof/data/bridge_to_algebra*
-rnn_prof/data/by_skill/
+rnn_prof/data/by_skill*
 rnn_prof/data/filtered_dataframe*
 rnn_prof/data/id_difficulty_map*
 rnn_prof/data/id_skill_map*
