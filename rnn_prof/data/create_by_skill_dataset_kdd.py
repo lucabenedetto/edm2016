@@ -29,11 +29,14 @@ print('[INFO] Collected dataframe')
 item_skill_mapping_df = get_item_skill_mapping(filepath)
 print('[INFO] Generated item skill mapping')
 
-df_mapping_list = pd.DataFrame(columns=['skill_id', 'skill_name'])
+dict_mapping = dict()
 for skill_id, skill_name in item_skill_mapping_df[['skill_id', 'skill_name']].values:
-    df_mapping_list = df_mapping_list.append({'skill_id': skill_id, 'skill_name': skill_name}, ignore_index=True)
-df_mapping_list.to_csv('by_skill_kdd_mapping_idx2name.csv', sep='\t')
-df_mapping_list = None
+    if skill_id not in dict_mapping.keys():
+        dict_mapping[skill_id] = skill_name
+pd.DataFrame({
+    'skill_id': list(dict_mapping.keys()),
+    'skill_name': list(dict_mapping.values())
+}).to_csv('by_skill_kdd_mapping_idx2name.csv', sep='\t')
 print('[INFO] Saved file containing index-name mapping')
 
 for skill_id in item_skill_mapping_df['skill_id'].unique():
@@ -41,5 +44,5 @@ for skill_id in item_skill_mapping_df['skill_id'].unique():
     list_items_to_keep = list(item_skill_mapping_df[item_skill_mapping_df['skill_id'] == skill_id]['question'].values)
     local_df = df[df['question'].isin(list_items_to_keep)]
     print('[INFO] Number of rows %d' % len(local_df.index))
-    local_df[original_columns].to_csv('by_skill_kdd_NEW/bridge_to_algebra_2006_2007_train_%d.txt' % skill_id, sep='\t')
+    local_df[original_columns].to_csv('by_skill_kdd/bridge_to_algebra_2006_2007_train_%d.txt' % skill_id, sep='\t')
     print('[INFO] Stored DF for the skill')
