@@ -31,7 +31,7 @@ print('[INFO] Generated item skill mapping')
 
 df_mapping_list = pd.DataFrame(columns=['skill_id', 'skill_name'])
 for skill_id, skill_name in item_skill_mapping_df[['skill_id', 'skill_name']].values:
-    df = df_mapping_list.append({'skill_id': skill_id, 'skill_name': skill_name}, ignore_index=True)
+    df_mapping_list = df_mapping_list.append({'skill_id': skill_id, 'skill_name': skill_name}, ignore_index=True)
 df_mapping_list.to_csv('by_skill_kdd_mapping_idx2name.csv', sep='\t')
 df_mapping_list = None
 print('[INFO] Saved file containing index-name mapping')
