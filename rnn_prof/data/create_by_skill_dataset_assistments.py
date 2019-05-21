@@ -13,7 +13,7 @@ dict_mapping = dict()
 for skill_id, skill_name in df[['skill_id', 'skill_name']].values:
     if skill_id not in dict_mapping.keys():
         dict_mapping[skill_id] = skill_name
-pd.DataFrame(dict_mapping).to_csv('by_skill_assistment_mapping_idx2name.csv', sep='\t')
+pd.DataFrame(dict_mapping).to_csv('by_skill_assistments_mapping_idx2name.csv', sep='\t')
 print('[INFO] Saved file containing index-name mapping')
 
 skill_list = df.skill_id.unique()
