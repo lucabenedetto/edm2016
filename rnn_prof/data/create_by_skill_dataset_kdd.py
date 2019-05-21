@@ -36,7 +36,7 @@ df_mapping_list.to_csv('by_skill_kdd_mapping_idx2name.csv', sep='\t')
 df_mapping_list = None
 print('[INFO] Saved file containing index-name mapping')
 
-for skill_id, skill_name in item_skill_mapping_df[['skill_id', 'skill_name']].values:
+for skill_id in item_skill_mapping_df['skill_id'].unique():
     print('[INFO] Working on skill %d' % skill_id)
     list_items_to_keep = list(item_skill_mapping_df[item_skill_mapping_df['skill_id'] == skill_id]['question'].values)
     local_df = df[df['question'].isin(list_items_to_keep)]
